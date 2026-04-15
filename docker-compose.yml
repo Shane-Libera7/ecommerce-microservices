@@ -33,7 +33,7 @@ services:
   user-db:
     image: postgres:15
     environment:
-      POSTGRES_DB: user_service
+      POSTGRES_DB: user-db
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
 
