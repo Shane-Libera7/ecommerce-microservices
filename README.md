@@ -61,6 +61,21 @@ This starts all services, their databases, and RabbitMQ in one command.
 
 
 
+## Design Decisions
+
+### JWT Secret Sharing Strategy
+
+All services validate JWTs using the same shared secret, distributed via environment variables. When a request arrives at any service, it verifies the token independently without making a network call to the User Service. This keeps authentication fast and removes the User Service as a single point of failure for every authenticated request.
+
+The trade-off is that all services must be kept in sync with the same secret, and rotating the secret requires redeploying all services simultaneously. For a production system at scale, a dedicated auth service or a public/private key pair (asymmetric JWT) would be more appropriate — any service could verify tokens using the public key without ever having access to the private signing key.
+
+### Shared Auth Middleware
+
+Rather than creating a shared internal npm package, the auth middleware is copied into each Node.js service that requires it. This was chosen for simplicity at this scale. The trade-off is that a change to the middleware logic requires updating multiple services. In a larger codebase this would be extracted into a versioned internal package published to a private npm registry.
+
+
+
+
 
 
 ## Architecture 

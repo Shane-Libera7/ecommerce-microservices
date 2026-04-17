@@ -27,7 +27,22 @@ router.get('/me', authMiddleware, async (req, res, next) =>{
 
 
 });
+//Internal endpoint for service to service communication 
+//Should be accessible from within Docker Network, not the public gateway
+router.get('/users/:id', async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        const user = await db('users').select(['id', 'email', 'created_at']).where('id', userId).first();
 
+        if (!user){
+        return res.status(404).json({ error: 'User not found'});
+        }else {
+        return res.status(200).json(user);
+        }
+    } catch(e){
+    next(e);
+    }
+});
 
 
 //Routes
