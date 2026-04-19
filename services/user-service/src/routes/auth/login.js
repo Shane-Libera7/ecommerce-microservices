@@ -39,7 +39,7 @@ router.post('/', limiter, async (req, res) => {
 
             //Generation of both access and refresh token
             const accessToken = jwt.sign(
-                { userId: user.id},
+                { userId: user.id, isAdmin: user.is_admin},
                 process.env.JWT_SECRET,
                 { expiresIn: '15m' }
             );

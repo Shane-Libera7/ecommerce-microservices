@@ -20,6 +20,7 @@ function authenticate(req, res, next){
         const validToken = jwt.verify(token, process.env.JWT_SECRET);
 
         req.userId = validToken.userId;
+        req.isAdmin = validToken.isAdmin;
         next();
 
 
