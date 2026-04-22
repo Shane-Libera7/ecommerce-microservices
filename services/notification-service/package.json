@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "amqplib": "^1.0.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3"
   }
